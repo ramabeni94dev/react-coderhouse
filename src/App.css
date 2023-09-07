@@ -36,3 +36,6 @@
     transform: rotate(360deg);
   }
 }
+
+/* src/index.css */
+@import "~bootstrap/dist/css/bootstrap.min.css";
