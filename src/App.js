@@ -1,19 +1,29 @@
 import "./App.css";
 import CollapsibleExample from "./componentes/navbar/navbar";
-import UncontrolledExample from "./componentes/carrusel/carrusel";
-import ItemListContaienr from "./componentes/itemlistcontainer/itemlistcontainer";
+
 import Footer from "./componentes/footer/footer";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import Home from "./pages/Home/index";
+import Login from "./pages/login/login";
+import Products from "./pages/product/products";
 
 function App() {
   return (
-    <div className="App">
-      <CollapsibleExample />
-      <ItemListContaienr greeting={"Bienvenidos"} />
-      <div className="container">
-        <UncontrolledExample />
+    <BrowserRouter>
+      <div className="App">
+        <CollapsibleExample />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/products" element={<Products />} />
+          </Routes>
+        </main>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </BrowserRouter>
   );
 }
 
