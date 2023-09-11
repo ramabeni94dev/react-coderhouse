@@ -12,12 +12,12 @@ const routes = [
     text: "Home",
   },
   {
-    path: "/login",
-    text: "Login",
-  },
-  {
     path: "/products",
     text: "Products",
+  },
+  {
+    path: "/my-account",
+    text: "My account",
   },
 ];
 

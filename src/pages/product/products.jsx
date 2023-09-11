@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { getProducts } from "../../Productos";
 
 import { getRate } from "../../utils/getRate";
-import { Link, NavLink } from "react-router-dom";
+
 import Spinner from "react-bootstrap/Spinner";
 
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "./products.css";
 
@@ -60,12 +60,12 @@ const Products = () => {
                   / {rating.count} reviews
                 </p>
                 <strong>${price}</strong>
-                <a
-                  href={`/products/${id}`}
+                <Link
+                  to={`/products/${id}`}
                   className="mt-auto btn btn-custom btn-sm"
                 >
-                  View more ...
-                </a>
+                  <span>View more ...</span>
+                </Link>
               </div>
             </div>
           </div>

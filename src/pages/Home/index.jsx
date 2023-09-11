@@ -1,6 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Card, Button } from "react-bootstrap";
+import { Container, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -13,7 +14,10 @@ const Home = () => {
               Este es un ejemplo de una página de inicio utilizando React y
               React Bootstrap.
             </Card.Text>
-            <Button variant="primary">¡Empezar!</Button>
+
+            <Link to={`/products`} className="mt-auto btn btn-custom btn-sm">
+              <span>¡Empezar a comprar!</span>
+            </Link>
           </Card.Body>
         </Card>
       </Container>

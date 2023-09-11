@@ -6,10 +6,23 @@ import Footer from "./componentes/footer/footer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Home from "./pages/Home/index";
-import Login from "./pages/login/login";
+
 import Products from "./pages/product/products";
+import Detail from "./pages/detail/detail";
+
+import SignIn from "./pages/login/login";
+import ProtectedRoute from "./Protectroute/protectroute";
+import MyAccount from "./pages/MyAccount/myaccount";
+
+import { useState } from "react";
 
 function App() {
+  const [session, setSession] = useState(null);
+
+  const handleSetSession = (user) => {
+    setSession(user);
+  };
+
   return (
     <BrowserRouter>
       <div className="App">
@@ -17,8 +30,20 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login"
+              element={<SignIn onLogin={handleSetSession} />}
+            />
             <Route path="/products" element={<Products />} />
+            <Route path="/products/:id" element={<Detail />} />
+            <Route
+              path="/my-account"
+              element={
+                <ProtectedRoute session={session}>
+                  <MyAccount onLogout={handleSetSession} user={session} />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </main>
         <Footer />
