@@ -16,6 +16,8 @@ import MyAccount from "./pages/MyAccount/myaccount";
 
 import { useState } from "react";
 
+import { CartProvider } from "./context/CartContext";
+
 function App() {
   const [session, setSession] = useState(null);
 
@@ -25,29 +27,31 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App">
-        <CollapsibleExample />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route
-              path="/login"
-              element={<SignIn onLogin={handleSetSession} />}
-            />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<Detail />} />
-            <Route
-              path="/my-account"
-              element={
-                <ProtectedRoute session={session}>
-                  <MyAccount onLogout={handleSetSession} user={session} />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <CartProvider>
+        <div className="App">
+          <CollapsibleExample />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route
+                path="/login"
+                element={<SignIn onLogin={handleSetSession} />}
+              />
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/:id" element={<Detail />} />
+              <Route
+                path="/my-account"
+                element={
+                  <ProtectedRoute session={session}>
+                    <MyAccount onLogout={handleSetSession} user={session} />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </CartProvider>
     </BrowserRouter>
   );
 }

@@ -4,11 +4,16 @@ import { getRate } from "../../utils/getRate";
 import { ReactComponent as LeftIcon } from "../../icons/left.svg";
 import { useParams, Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
+import Counter from "../../componentes/itemcount/itemcount";
+
+import { useCart } from "../../context/CartContext"; // Importa el hook useCart
 
 const Detail = () => {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState(null);
   const { id } = useParams();
+
+  const { addToCart } = useCart(); // Usa el hook useCart para acceder al contexto del carrito
 
   useEffect(() => {
     setLoading(true);
@@ -54,7 +59,8 @@ const Detail = () => {
             / {product?.rating?.count} reviews
           </div>
           <h2 className="display-5 mt-4">${product?.price}</h2>
-          <button className="btn btn-primary btn-lg mt-4">Add to Cart</button>
+
+          <Counter addToCart={addToCart} />
         </div>
       </div>
     </div>

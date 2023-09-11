@@ -1,10 +1,12 @@
+import React from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import CartWidget from "../cartwidget/cartwidget";
 
+import CartWidget from "../../componentes/cartwidget/cartwidget";
 import { Link } from "react-router-dom";
+
+import { useCart } from "../../context/CartContext";
 
 const routes = [
   {
@@ -22,6 +24,9 @@ const routes = [
 ];
 
 function CollapsibleExample() {
+  // Usa el hook useCart para acceder al contexto del carrito
+  const { cartCount } = useCart();
+
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
       <Container>
@@ -37,9 +42,9 @@ function CollapsibleExample() {
               </li>
             ))}
           </Nav>
-          <Nav>
-            <CartWidget />
-          </Nav>
+          {/* Coloca el componente Counter aquí */}
+
+          <CartWidget cartCount={cartCount} />
         </Navbar.Collapse>
       </Container>
     </Navbar>
