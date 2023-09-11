@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getProductById } from "../../Productos";
 import { getRate } from "../../utils/getRate";
 import { ReactComponent as LeftIcon } from "../../icons/left.svg";
@@ -8,9 +8,7 @@ import Spinner from "react-bootstrap/Spinner";
 const Detail = () => {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState(null);
-  //const params = useParams() = {productId: ??}
-  //params.productId
-  const { id } = useParams(); // {productId: ??}
+  const { id } = useParams();
 
   useEffect(() => {
     setLoading(true);
@@ -24,47 +22,42 @@ const Detail = () => {
 
   if (loading)
     return (
-      <p className="text-2xl max-w-5xl m-auto font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 to-[#a64aff] text-center">
+      <div className="container">
         <Spinner animation="border" role="status">
           <span className="visually-hidden">Loading...</span>
         </Spinner>
-      </p>
+      </div>
     );
 
   return (
-    <section className="container">
-      <div className="card" style={{ maxWidth: "100rem" }}>
-        <div className="card-header">
-          <Link to="/products" className="btn btn-indigo btn-sm">
-            <LeftIcon />
-            Go Back
-          </Link>
+    <div className="container my-5">
+      <Link to="/products" className="btn btn-link">
+        <LeftIcon />
+        Go Back
+      </Link>
+      <div className="row">
+        <div className="col-md-6">
+          <img
+            src={product?.image}
+            alt={product?.title}
+            className="img-fluid w-100 h-auto"
+          />
         </div>
-        <div className="card-body">
-          <picture className="w-100 m-auto">
-            <img
-              src={product?.image}
-              alt={product?.title}
-              className="img-fluid"
-            />
-          </picture>
-          <div className="d-flex flex-column gap-2 mt-3">
-            <h3 className="font-weight-bold text-3xl">{product?.title}</h3>
-            <p>{product?.description}</p>
-            <span className="badge bg-indigo-700 text-white small">
-              {product?.category}
-            </span>
-            <p>
-              <span className="text-yellow-600">
-                {getRate(product?.rating?.rate)}
-              </span>{" "}
-              / {product?.rating?.count} reviews
-            </p>
-            <strong>${product?.price}</strong>
+        <div className="col-md-6">
+          <h1 className="display-4">{product?.title}</h1>
+          <p className="text-muted">{product?.description}</p>
+          <div className="d-flex align-items-center">
+            <span className="badge bg-primary me-2">{product?.category}</span>
+            <span className="text-warning">
+              {getRate(product?.rating?.rate)}
+            </span>{" "}
+            / {product?.rating?.count} reviews
           </div>
+          <h2 className="display-5 mt-4">${product?.price}</h2>
+          <button className="btn btn-primary btn-lg mt-4">Add to Cart</button>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
