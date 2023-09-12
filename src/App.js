@@ -37,8 +37,12 @@ function App() {
                 path="/login"
                 element={<SignIn onLogin={handleSetSession} />}
               />
-              <Route path="/products" element={<Products />} />
-              <Route path="/products/:id" element={<Detail />} />
+              <Route path="/products" element={<Products />}>
+                <Route index element={<Products />} />
+                <Route path=":category" element={<Products />} />
+              </Route>
+
+              <Route path="/detail/:id" element={<Detail />} />
               <Route
                 path="/my-account"
                 element={

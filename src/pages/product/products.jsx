@@ -7,25 +7,34 @@ import Spinner from "react-bootstrap/Spinner";
 
 import { Link } from "react-router-dom";
 
+import { useParams } from "react-router-dom";
+
 import "./products.css";
 
 const Products = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
+  const { category } = useParams(); // Get the category parameter from the URL
 
   useEffect(() => {
     setLoading(true);
     getProducts()
-      .then((products) => setProducts(products))
+      .then((products) => {
+        // Filter products based on the category parameter
+        const filteredProducts = category
+          ? products.filter((product) => product.category === category)
+          : products;
+        setProducts(filteredProducts);
+      })
       .catch((err) => console.log({ err }))
       .finally(() => setLoading(false));
-  }, []);
+  }, [category]);
 
   if (loading)
     return (
       <p className="text-2xl max-w-5xl m-auto font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 to-[#a64aff] text-center">
         <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
+          <span className="visually-hidden">Loa ding...</span>
         </Spinner>{" "}
       </p>
     );
@@ -61,7 +70,7 @@ const Products = () => {
                 </p>
                 <strong>${price}</strong>
                 <Link
-                  to={`/products/${id}`}
+                  to={`/detail/${id}`}
                   className="mt-auto btn btn-custom btn-sm"
                 >
                   <span>View more ...</span>
