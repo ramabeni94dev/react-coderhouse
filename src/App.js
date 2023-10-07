@@ -18,6 +18,7 @@ import MyAccount from "./pages/MyAccount/myaccount";
 import { useState } from "react";
 
 import { CartProvider } from "./context/CartContext";
+import OrderForm from "./pages/cart/OrderForm";
 
 function App() {
   const [session, setSession] = useState(null);
@@ -45,6 +46,7 @@ function App() {
 
               <Route path="/detail/:id" element={<Detail />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/OrderForm" element={<OrderForm />} />
               <Route
                 path="/my-account"
                 element={

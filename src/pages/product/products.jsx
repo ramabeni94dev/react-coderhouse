@@ -1,21 +1,16 @@
-import { useEffect, useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import { getRate } from "../../utils/getRate";
-
 import Spinner from "react-bootstrap/Spinner";
-
 import { Link } from "react-router-dom";
-
 import { useParams } from "react-router-dom";
-
 import "./products.css";
-
 import { db } from "../../services/firebase/firebaseConfig";
 import { getDocs, collection } from "firebase/firestore";
 
 const Products = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para el término de búsqueda
   const { category } = useParams(); // Get the category parameter from the URL
 
   useEffect(() => {
@@ -33,9 +28,16 @@ const Products = () => {
         });
 
         // Filtra los productos basados en la categoría si se proporciona
-        const filteredProducts = category
+        let filteredProducts = category
           ? productData.filter((product) => product.category === category)
           : productData;
+
+        // Filtra los productos por título si hay un término de búsqueda
+        if (searchTerm) {
+          filteredProducts = filteredProducts.filter((product) =>
+            product.title.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        }
 
         setProducts(filteredProducts);
       } catch (error) {
@@ -47,19 +49,29 @@ const Products = () => {
 
     // Llama a la función para obtener los productos cuando el componente se monta
     fetchProducts();
-  }, [category]);
+  }, [category, searchTerm]);
 
   if (loading)
     return (
       <p className="text-2xl max-w-5xl m-auto font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 to-[#a64aff] text-center">
         <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loa ding...</span>
+          <span className="visually-hidden">Loading...</span>
         </Spinner>{" "}
       </p>
     );
 
   return (
     <section className="container">
+      {/* Agrega un campo de entrada de texto para buscar por título */}
+      <div className="mb-3">
+        <input
+          type="text"
+          placeholder="Buscar por título"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="form-control"
+        />
+      </div>
       <div className="row row-cols-1 row-cols-md-3 g-4">
         {products.map(({ id, title, price, category, rating, image }) => (
           <div key={id} className="col">
