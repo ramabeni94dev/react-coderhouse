@@ -11,7 +11,8 @@ const Home = () => {
           <Card.Body>
             <Card.Title>Bienvenido a Mi Sitio Web</Card.Title>
             <Card.Text>
-              Tienda realizada con Bootstrap, para proyectofinal Coderhouse
+              Tienda realizada en el curso de React, para proyectofinal
+              Coderhouse
             </Card.Text>
 
             <Link to={`/products`} className="mt-auto btn btn-custom btn-sm">
