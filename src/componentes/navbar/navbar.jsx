@@ -7,6 +7,7 @@ import CartWidget from "../../componentes/cartwidget/cartwidget";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { getProducts } from "../../Productos";
+import Cart from "../../pages/cart/cart";
 
 const routes = [
   {

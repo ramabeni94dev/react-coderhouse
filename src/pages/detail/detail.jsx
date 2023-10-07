@@ -13,7 +13,32 @@ const Detail = () => {
   const [product, setProduct] = useState(null);
   const { id } = useParams();
 
-  const { addToCart } = useCart(); // Usa el hook useCart para acceder al contexto del carrito
+  const { addToCart, addItemToCart } = useCart(); // Usa el hook useCart para acceder al contexto del carrito
+
+  // Manejar la adición de un producto al carrito
+  // Manejar la adición de un producto al carrito
+  const handleAddToCart = (count) => {
+    if (product) {
+      // Crear un objeto del producto con las propiedades necesarias
+      const productToAdd = {
+        category: product.category,
+        description: product.description,
+        id: product.id,
+        image: product.image,
+        price: product.price,
+        quantity: count, // Usar la cantidad seleccionada
+        rating: product.rating,
+        title: product.title,
+      };
+
+      // Agregar el producto al carrito con las propiedades seleccionadas
+      console.log("Producto agregado al carrito:", productToAdd);
+      addItemToCart(productToAdd);
+
+      // Actualizar la cantidad total en el contador del carrito
+      addToCart(count);
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -60,7 +85,7 @@ const Detail = () => {
           </div>
           <h2 className="display-5 mt-4">${product?.price}</h2>
 
-          <Counter addToCart={addToCart} />
+          <Counter addToCart={handleAddToCart} />
         </div>
       </div>
     </div>

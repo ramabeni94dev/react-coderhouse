@@ -9,6 +9,7 @@ import Home from "./pages/Home/index";
 
 import Products from "./pages/product/products";
 import Detail from "./pages/detail/detail";
+import Cart from "./pages/cart/cart";
 
 import SignIn from "./pages/login/login";
 import ProtectedRoute from "./Protectroute/protectroute";
@@ -43,6 +44,7 @@ function App() {
               </Route>
 
               <Route path="/detail/:id" element={<Detail />} />
+              <Route path="/cart" element={<Cart />} />
               <Route
                 path="/my-account"
                 element={
