@@ -7,7 +7,7 @@ import CartWidget from "../../componentes/cartwidget/cartwidget";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 // import { getProducts } from "../../Productos";
-import Cart from "../../pages/cart/cart";
+
 import { getDocs, collection } from "firebase/firestore"; // Importa las funciones necesarias para Firestore
 import { db } from "../../services/firebase/firebaseConfig";
 
@@ -56,7 +56,7 @@ function CollapsibleExample() {
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="home">Tienda de juegos</Navbar.Brand>
+        <Navbar.Brand href="home">TiendaVirtual</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">

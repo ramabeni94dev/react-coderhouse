@@ -11,8 +11,7 @@ const Home = () => {
           <Card.Body>
             <Card.Title>Bienvenido a Mi Sitio Web</Card.Title>
             <Card.Text>
-              Este es un ejemplo de una página de inicio utilizando React y
-              React Bootstrap.
+              Tienda realizada con Bootstrap, para proyectofinal Coderhouse
             </Card.Text>
 
             <Link to={`/products`} className="mt-auto btn btn-custom btn-sm">
