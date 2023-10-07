@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getProductById } from "../../Productos";
-import { getRate } from "../../utils/getRate";
-import { ReactComponent as LeftIcon } from "../../icons/left.svg";
-import { useParams, Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import Counter from "../../componentes/itemcount/itemcount";
-
 import { useCart } from "../../context/CartContext"; // Importa el hook useCart
+import { ReactComponent as LeftIcon } from "../../icons/left.svg";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../../services/firebase/firebaseConfig";
+import { getRate } from "../../utils/getRate";
 
 const Detail = () => {
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,6 @@ const Detail = () => {
 
   const { addToCart, addItemToCart } = useCart(); // Usa el hook useCart para acceder al contexto del carrito
 
-  // Manejar la adición de un producto al carrito
   // Manejar la adición de un producto al carrito
   const handleAddToCart = (count) => {
     if (product) {
@@ -42,12 +41,32 @@ const Detail = () => {
 
   useEffect(() => {
     setLoading(true);
-    getProductById(Number(id))
-      .then((product) => {
-        setProduct(product);
-      })
-      .catch((err) => console.log({ err }))
-      .finally(() => setLoading(false));
+
+    // Realiza la consulta a Firebase Firestore para obtener el producto por su ID
+    const fetchProductById = async () => {
+      try {
+        const productQuery = query(
+          collection(db, "products"),
+          where("id", "==", Number(id))
+        );
+        const querySnapshot = await getDocs(productQuery);
+
+        if (querySnapshot.docs.length === 1) {
+          // Si se encuentra un solo documento, establece el producto
+          const productData = querySnapshot.docs[0].data();
+          setProduct(productData);
+        } else {
+          console.error("Producto no encontrado");
+        }
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Llama a la función para obtener el producto cuando el componente se monta
+    fetchProductById();
   }, [id]);
 
   if (loading)
@@ -85,6 +104,7 @@ const Detail = () => {
           </div>
           <h2 className="display-5 mt-4">${product?.price}</h2>
 
+          {/* Pasa la función handleAddToCart como prop addToCart */}
           <Counter addToCart={handleAddToCart} />
         </div>
       </div>

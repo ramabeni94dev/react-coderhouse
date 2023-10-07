@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getProducts } from "../../Productos";
 
 import { getRate } from "../../utils/getRate";
 
@@ -11,6 +10,9 @@ import { useParams } from "react-router-dom";
 
 import "./products.css";
 
+import { db } from "../../services/firebase/firebaseConfig";
+import { getDocs, collection } from "firebase/firestore";
+
 const Products = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
@@ -18,16 +20,33 @@ const Products = () => {
 
   useEffect(() => {
     setLoading(true);
-    getProducts()
-      .then((products) => {
-        // Filter products based on the category parameter
+
+    // Realiza la consulta a Firestore para obtener todos los documentos de la colección "products"
+    const fetchProducts = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        const productData = [];
+
+        // Recorre los documentos y agrega sus datos al array productData
+        querySnapshot.forEach((doc) => {
+          productData.push(doc.data());
+        });
+
+        // Filtra los productos basados en la categoría si se proporciona
         const filteredProducts = category
-          ? products.filter((product) => product.category === category)
-          : products;
+          ? productData.filter((product) => product.category === category)
+          : productData;
+
         setProducts(filteredProducts);
-      })
-      .catch((err) => console.log({ err }))
-      .finally(() => setLoading(false));
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Llama a la función para obtener los productos cuando el componente se monta
+    fetchProducts();
   }, [category]);
 
   if (loading)

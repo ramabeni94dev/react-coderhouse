@@ -6,8 +6,10 @@ import Navbar from "react-bootstrap/Navbar";
 import CartWidget from "../../componentes/cartwidget/cartwidget";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { getProducts } from "../../Productos";
+// import { getProducts } from "../../Productos";
 import Cart from "../../pages/cart/cart";
+import { getDocs, collection } from "firebase/firestore"; // Importa las funciones necesarias para Firestore
+import { db } from "../../services/firebase/firebaseConfig";
 
 const routes = [
   {
@@ -30,25 +32,25 @@ function CollapsibleExample() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    // Función asíncrona para obtener los productos y categorías
-    async function fetchProductsAndCategories() {
+    // Función asíncrona para obtener las categorías de Firebase
+    async function fetchCategories() {
       try {
-        const productsArray = await getProducts();
-        if (Array.isArray(productsArray)) {
-          const uniqueCategories = Array.from(
-            new Set(productsArray.map((product) => product.category))
-          );
-          setCategories(uniqueCategories);
-        } else {
-          console.error("La variable 'products' no es un array.");
-        }
+        // Realiza una consulta a Firebase para obtener los documentos de la colección "products"
+        const querySnapshot = await getDocs(collection(db, "products"));
+
+        // Crea un array de categorías únicas a partir de los documentos obtenidos
+        const uniqueCategories = Array.from(
+          new Set(querySnapshot.docs.map((doc) => doc.data().category))
+        );
+
+        setCategories(uniqueCategories);
       } catch (error) {
-        console.error("Error al obtener los productos:", error);
+        console.error("Error al obtener las categorías:", error);
       }
     }
 
-    // Llama a la función para obtener los productos y categorías
-    fetchProductsAndCategories();
+    // Llama a la función para obtener las categorías cuando el componente se monta
+    fetchCategories();
   }, []);
 
   return (
